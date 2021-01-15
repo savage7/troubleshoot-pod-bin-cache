@@ -1,0 +1,57 @@
+name: Example
+
+options:
+  deploymentTarget:
+    iOS: "13.0"
+  postGenCommand: bundle exec pod install --repo-update
+
+settings:
+  base:
+    MARKETING_VERSION: 1.0.0
+    CURRENT_PROJECT_VERSION: 1.0.0
+    ENABLE_BITCODE: NO
+    DEVELOPMENT_LANGUAGE: en
+
+configs:
+  #Debug: debug
+  #Release: release
+  Staging Debug: debug
+  Staging Release: release
+  Production Debug: debug
+  Production Release: release
+
+
+targetTemplates:
+  baseTarget:
+    settings:
+      configs:
+        Debug:
+          CODE_SIGN_IDENTITY: iPhone Developer
+        Release:
+          CODE_SIGN_IDENTITY: iPhone Distribution
+
+targets:
+  Example:
+    type: application
+    platform: iOS
+    defaultConfig: Staging
+    scheme:
+      configVariants:
+        - Staging
+        - Production
+
+    settings:
+      base:
+        BUNDLE_DISPLAY_NAME: Example
+        PRODUCT_NAME: Example
+        INFOPLIST_FILE: Example/Info.plist
+        TARGETED_DEVICE_FAMILY: 1
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        PRODUCT_BUNDLE_IDENTIFIER: com.test
+
+    
+    sources:
+      - path: Example
+        excludes:
+          - "Example/Info.plist"
+
